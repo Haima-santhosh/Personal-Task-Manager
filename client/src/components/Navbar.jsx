@@ -6,7 +6,8 @@ export default function Navbar() {
   const handleLogout = () => {
     // clear token
     localStorage.removeItem("token")
-    // redirect to login using React Router
+
+    // redirect to login 
     navigate("/login")
   }
 

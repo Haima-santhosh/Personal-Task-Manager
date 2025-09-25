@@ -1,41 +1,41 @@
-import { useState } from "react"
-import { loginUser } from "../services/api"
-import { useNavigate, Link } from "react-router-dom"
+import { useState } from "react";
+import { loginUser } from "../services/api";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError("")
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
     try {
       // Call login API
-      const response = await loginUser({ email, password })
-      console.log("Login response:", response)
+      const response = await loginUser({ email, password });
+      console.log("Login response:", response);
 
       // Extract token safely
-      const token = response.token
+      const token = response.token;
       if (!token) {
-        setError("Login failed. Token missing")
-        return
+        setError("Login failed. Token missing");
+        return;
       }
 
       // Save token and redirect
-      localStorage.setItem("token", token)
-      navigate("/dashboard")
+      localStorage.setItem("token", token);
+      navigate("/dashboard");
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed. Try again")
+      setError(err.response?.data?.message || "Login failed. Try again");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -90,5 +90,5 @@ export default function Login() {
         </p>
       </form>
     </div>
-  )
+  );
 }
