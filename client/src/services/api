@@ -1,0 +1,56 @@
+import axios from "axios"
+
+// Axios instance
+const API = axios.create({
+  baseURL: "http://localhost:5000/api"
+})
+
+// ----------------- AUTH -----------------
+
+
+export const registerUser = async (userData) => {
+  const response = await API.post("/auth/register", userData)
+  return response.data
+}
+
+export const loginUser = async (userData) => {
+  const response = await API.post("/auth/login", userData)
+  return response.data
+}
+
+// ----------------- TASKS -----------------
+
+
+export const getTasks = async (token) => {
+  try {
+    const response = await API.get("/tasks", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    return { data: response.data }
+  } catch (err) {
+    console.error("Error fetching tasks:", err)
+    // if error happens return empty array
+    return { data: [] } 
+  }
+}
+
+export const addTask = async (taskData, token) => {
+  const response = await API.post("/tasks", taskData, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  return response.data
+}
+
+export const updateTask = async (taskId, taskData, token) => {
+  const response = await API.put(`/tasks/${taskId}`, taskData, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  return response.data
+}
+
+export const deleteTask = async (taskId, token) => {
+  const response = await API.delete(`/tasks/${taskId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  return response.data
+}
